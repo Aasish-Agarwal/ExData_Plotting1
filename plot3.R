@@ -40,29 +40,30 @@ pngdevice <- png(filename = pngfilename,
     width = 480, height = 480, units = "px")
 
 # Creating line plot with required axis title
-with(hh_power_consumption,{
-  plot(datetime, Global_active_power,
-       main = "",
-       xlab = "", 
-       ylab="Global Active Power", 
-       type="l")
-  plot(datetime, Voltage,
-       main = "",
-       xlab = "datetime", 
-       ylab="Voltage", 
-       type="l")
-  plot(datetime, Sub_metering_1,
-       main = "",
-       xlab = "", 
-       ylab="Energy sub metering", 
-       type="l")
-  plot(datetime, Global_reactive_power,
-       main = "",
-       xlab = "datetime", 
-       ylab="Global_reactive_power", 
-       type="l")
-  })
+with(hh_power_consumption, 
+     plot(datetime, Sub_metering_1, 
+          main="", 
+          xlab="", 
+          ylab="Energy sub metering", 
+          type="n")
+     )
+with(hh_power_consumption,
+  points(datetime, Sub_metering_1,
+       type="l",
+       col="black")
+  )
+with(hh_power_consumption,
+     points(datetime, Sub_metering_2,
+            type="l",
+            col="red")
+     )
+with(hh_power_consumption,
+     points(datetime, Sub_metering_3,
+            type="l",
+            col="blue")
+     )
 
+legend("topright",  lty="solid",  col = c("black", "red", "blue"), legend = c("Sub_metering_1", "Sub_metering_2", "Sub_metering_3"))
 # Winding up by closing png device
 dev.off()
 
