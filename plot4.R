@@ -38,9 +38,13 @@ hh_power_consumption$datetime = strptime(hh_power_consumption$datetime, format =
 pngfilename <- "plot4.png"
 pngdevice <- png(filename = pngfilename,
     width = 480, height = 480, units = "px")
+
+##############################################################################
+# Configuring plots organization
 par(mfrow=c(2,2))
 
-# Creating line plot with required axis title
+##############################################################################
+# CREATE Global Active Power plot
 with(hh_power_consumption,
   plot(datetime, Global_active_power,
        main = "",
@@ -49,6 +53,8 @@ with(hh_power_consumption,
        type="l"))
 
 
+##############################################################################
+# CREATE Voltage plot
 with(hh_power_consumption,{
   plot(datetime, Voltage,
        main = "",
@@ -57,14 +63,34 @@ with(hh_power_consumption,{
        type="l")
 })
 
-with(hh_power_consumption,{
-  plot(datetime, Sub_metering_1,
-       main = "",
-       xlab = "", 
-       ylab="Energy sub metering", 
-       type="l")
-})
+##############################################################################
+# CREATE Energy sub metering plot
+with(hh_power_consumption, 
+     plot(datetime, Sub_metering_1, 
+          main="", 
+          xlab="", 
+          ylab="Energy sub metering", 
+          type="n")
+)
+legend("topright",  bty = "n", lty="solid",  col = c("black", "red", "blue"), legend = c("Sub_metering_1", "Sub_metering_2", "Sub_metering_3"))
+with(hh_power_consumption,
+     points(datetime, Sub_metering_1,
+            type="l",
+            col="black")
+)
+with(hh_power_consumption,
+     points(datetime, Sub_metering_2,
+            type="l",
+            col="red")
+)
+with(hh_power_consumption,
+     points(datetime, Sub_metering_3,
+            type="l",
+            col="blue")
+)
 
+##############################################################################
+# CREATE Global Reactive Power plot
 with(hh_power_consumption,{
   plot(datetime, Global_reactive_power,
        main = "",
