@@ -10,9 +10,13 @@ source("getdata.R")
 # LOAD DATA
 library(dplyr)
 data_file <- "household_power_consumption.txt"
-data_file <- "crap.csv"
-hh_power_consumption  <- read.table(data_file, header = T, sep=";", stringsAsFactors = F) %>%
-  tbl_df() 
+
+hh_power_consumption  <- 
+  read.table(data_file, header = T, sep=";", stringsAsFactors = F) %>%
+  tbl_df() %>%
+  mutate(Date = as.Date(Date, "%e/%m/%Y")) %>%
+  filter(Date == as.Date("2007-02-01") | Date == as.Date("2007-02-02") ) %>%
+  mutate(Global_active_power = as.numeric(Global_active_power))
 
 pngdevice <- png(filename = "plot1.png",
     width = 480, height = 480, units = "px")
@@ -23,3 +27,4 @@ with(hh_power_consumption, hist(Global_active_power ,
      )
 
 dev.off()
+
