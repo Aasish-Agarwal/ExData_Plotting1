@@ -20,6 +20,7 @@ data_file <- "household_power_consumption.txt"
 #   Filtering data for 2007-02-01 and 2007-02-02
 #   Filtering rows containing "?" in Global_active_power
 #   Converting Global_active_power to numeric
+#   Creating a datetime field as combination of Date & Time
 
 hh_power_consumption  <- 
   read.table(data_file, header = T, sep=";", stringsAsFactors = F) %>%
@@ -28,6 +29,7 @@ hh_power_consumption  <-
   filter(Date == as.Date("2007-02-01") | Date == as.Date("2007-02-02"), Global_active_power != "?" ) %>%
   mutate(Global_active_power = as.numeric(Global_active_power) , datetime = paste(Date,Time))
 
+# Converting datetime from string to POSIXlt
 hh_power_consumption$datetime = strptime(hh_power_consumption$datetime, format = "%Y-%m-%d %H:%M:%S")
 ##############################################################################
 # CREATE PNG File
